@@ -11,7 +11,6 @@ module.exports.registerUser = async (req, res, next) => {
     req.login(registeredUser, (err) => {
       if (err) return next(err);
       req.flash("success", "Welcome to Yelp Camp!");
-      console.log("Campground ID: ", id);
       res.redirect("/campgrounds");
     });
   } catch (e) {
@@ -35,7 +34,6 @@ module.exports.logoutUser = (req, res) => {
       return next(err);
     }
     req.flash("success", "Goodbye!");
-    //console.log("Campground ID: ", id);
     res.redirect("/campgrounds");
   });
 };

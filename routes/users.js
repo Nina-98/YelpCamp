@@ -6,7 +6,12 @@ const User = require("../models/user");
 const { isLoggedIn, storeReturnTo } = require("../middleware");
 const user = require("../controllers/users");
 
-router.get("/register", user.renderRegisterForm);
+router
+  .route("/register")
+  .get(user.renderRegisterForm)
+  .post(catchAsync(user.registerUser));
+
+//router.get("/register", user.renderRegisterForm);
 
 // router.post(
 //   "/register",
@@ -25,19 +30,31 @@ router.get("/register", user.renderRegisterForm);
 //   })
 // );
 
-router.post("/register", catchAsync(user.registerUser));
+//router.post("/register", catchAsync(user.registerUser));
 
-router.get("/login", user.renderLoginForm);
+router
+  .route("/login")
+  .get(user.renderLoginForm)
+  .post(
+    storeReturnTo,
+    passport.authenticate("local", {
+      failureFlash: true,
+      failureRedirect: "/login",
+    }),
+    user.loginUser
+  );
 
-router.post(
-  "/login",
-  storeReturnTo,
-  passport.authenticate("local", {
-    failureFlash: true,
-    failureRedirect: "/login",
-  }),
-  user.loginUser
-);
+// router.get("/login", user.renderLoginForm);
+
+// router.post(
+//   "/login",
+//   storeReturnTo,
+//   passport.authenticate("local", {
+//     failureFlash: true,
+//     failureRedirect: "/login",
+//   }),
+//   user.loginUser
+// );
 
 router.get("/logout", user.logoutUser);
 
