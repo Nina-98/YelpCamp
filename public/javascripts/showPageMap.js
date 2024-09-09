@@ -4,6 +4,7 @@ const map = new maptilersdk.Map({
   style: maptilersdk.MapStyle.STREETS,
   center: campground.geometry.coordinates, // starting position [lng, lat]
   zoom: 14, // starting zoom
+  scaleControl: true,
 });
 new maptilersdk.Marker()
   .setLngLat(campground.geometry.coordinates)
