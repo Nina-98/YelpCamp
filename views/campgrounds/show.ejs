@@ -60,8 +60,8 @@
         <a
           href="/campgrounds/<%=campground._id%>/edit"
           class="card-link btn btn-info"
-          >Edit</a
-        >
+          >Edit
+        </a>
         <form
           class="d-inline"
           action="/campgrounds/<%=campground._id%>?_method=DELETE"
@@ -75,6 +75,7 @@
     </div>
   </div>
   <div class="col-6">
+    <div id="map" style="width: 400px; height: 300px"></div>
     <%if(currentUser) {%>
     <h2>Leave a Review</h2>
     <form
@@ -140,3 +141,8 @@
     <% } %>
   </div>
 </div>
+<script>
+  const maptilerApiKey = "<%- process.env.MAPTILER_API_KEY %>";
+  const campground = <%- JSON.stringify(campground) %>
+</script>
+<script src="/javascripts/showPageMap.js"></script>

@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate') %>
 
-<!--col-6 offest 3  is a way to center it, if we have 12 spots it will take 6 and with the offset we are centering it-->
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
@@ -35,10 +34,53 @@
         />
         <div class="invalid-feedback">Please insert a location.</div>
       </div>
+
+      <!-- Existing Images -->
       <div class="mb-3">
-        <label class="form-label" for="image">Add Images</label>
-        <input type="file" name="image" id="image" multiple />
+        <label class="form-label">Current Images</label>
+        <div>
+          <% campground.images.forEach(function (img, i) { %>
+          <img
+            src="<%= img.url %>"
+            alt="campground image"
+            style="width: 100px; margin-right: 5px"
+          />
+          <div class="form-check-inline">
+            <input
+              type="checkbox"
+              id="image-<%=i%>"
+              name="deleteImages[]"
+              value="<%= img.filename %>"
+            />
+          </div>
+          <label for="">Delete Image</label>
+          <% }) %>
+        </div>
       </div>
+
+      <!-- Image Upload Limit -->
+      <% const maxImages = 5; %> <% const imagesLeft = maxImages -
+      campground.images.length; %>
+
+      <div class="mb-3">
+        <label class="form-label"
+          >You can upload <%= imagesLeft %> more image(s)</label
+        >
+
+        <% if (imagesLeft > 0) { %>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="image" name="image"
+          multiple accept="image/*" <%= imagesLeft === 0 ? 'disabled' : '' %> />
+          <label class="input-group-text" for="image">Add Images</label>
+        </div>
+        <% } else { %>
+        <p class="text-danger">
+          You have reached the maximum number of 5 images. Please delete some
+          images if you want to add new ones.
+        </p>
+        <% } %>
+      </div>
+
       <div class="mb-3">
         <label class="form-label" for="price">Campground Price</label>
         <div class="input-group mb-3">
@@ -56,6 +98,7 @@
           <div class="invalid-feedback">Please insert a price.</div>
         </div>
       </div>
+
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
         <textarea
